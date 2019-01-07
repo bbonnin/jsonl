@@ -2,7 +2,24 @@
 // TODO: npm install papaparse
 const Papa = require('papaparse')
 
+const LINE_SEP = '\n'
+
 const jsonl = {
+  
+  fromArray: function (array) {
+    const jsonlines = []
+    
+    array.forEach(obj => {
+      jsonlines.push(JSON.stringify(obj))
+    })
+    
+    return jsonlines.join(LINE_SEP)
+  },
+  
+  toArray: function (jsonlines) {
+    return JSON.parse('[' + jsonlines.replace(LINE_SEP, ',') + ']')
+  },
+  
   // Return a string containing data formated as json lines
   fromCsv: function (csv, config) {
     // config contains the same paramters as Papa parser:
@@ -17,7 +34,7 @@ const jsonl = {
       jsonlines.push(JSON.stringify(row))
     })
     
-    return jsonlines.join('\n')
+    return jsonlines.join(LINE_SEP)
   },
   
   // Return a csv built with the data in jsonlines
