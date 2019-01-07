@@ -3,20 +3,28 @@
 const Papa = require('papaparse')
 
 const jsonl = {
-  toJsonl: function (csvFile, options) {
-    // options contains:
+  // Return a string containing data formated as json lines
+  fromCsv: function (csv, config) {
+    // config contains the same paramters as Papa parser:
     // - delimiter (default: ,)
-    // - field names (default: the first line contains this information or it just generates an array of values)
     // - quoteChar
     
-    // read each line and convert it into json
     const jsonlines = []
-    blabla.forEach(line => {
-      const json = Papa.parse(line, options)
-      if (!json.errors) {
-        jsonlines.push(JSON.stringify(json.data[0]))
-      }
+    const rows = Papa.parse(csv, options)
+    
+    // read each row and convert it into a json string
+    rows.forEach(row =>
+      jsonlines.push(JSON.stringify(row))
     })
+    
+    return jsonlines.join('\n')
+  },
+  
+  // Return a csv built with the data in jsonlines
+  toCsv: function (jsonlines, config) {
+    const jsonlinesObj = JSON.parse('[' + jsonlines.replace(lineSeparator, ',') + ']')
+    const csv = Papa.unparse(jsonlinesObj, config)
+    return csv
   }
 }
 
