@@ -4,7 +4,7 @@ const Papa = require('papaparse')
 
 const LINE_SEP = '\n'
 
-const jsonl = {
+const parser = {
   
   fromArray: function (array) {
     const jsonlines = []
@@ -45,4 +45,4 @@ const jsonl = {
   }
 }
 
-modules.export = jsonl
+modules.export = parser
